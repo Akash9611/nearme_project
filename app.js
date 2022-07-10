@@ -13,9 +13,10 @@ app.use(express.json());
 
 mongoose
   .connect(
-//"mongodb+srv://locat:9877@cluster0.vygea11.mongodb.net/location?retryWrites=true&w=majority",
+
+"mongodb+srv://locat:9877@cluster0.vygea11.mongodb.net/location?retryWrites=true&w=majority",
     // "mongodb+srv://location:1234@cluster0.qufy3.mongodb.net/location?retryWrites=true&w=majority",
-  "mongodb://localhost:27017/Database", 
+  // "mongodb://localhost:27017/Database", 
   { useNewUrlParser: true, useUnifiedTopology: true,/* useCreateIndex: true */}
   )
   .then(() => {
