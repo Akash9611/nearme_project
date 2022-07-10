@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const user = require("../model/user");
 
 exports.createNewUser = (req, res, next) => {
- // console.log(req.body);
+  // console.log(req.body);
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
       name: req.body.name,
@@ -77,39 +77,38 @@ exports.loin = (req, res, next) => {
 //     });
 // }
 
-exports.getPhone = (req, res, next) => {
-    try{
-
-        const data = [
-            { name: "Shubham", phone: 8421556999 },
-            { name: "Akash", phone: 8421800999 },
+exports.postPhoneData = (req, res, next) => {
+  // const data=req.body 
+  const data = [
+    { name: "Shubham", phone: 8421556999 },
+    { name: "Akash", phone: 8421800900 },
     { name: "Harsh", phone: 8421801999 },
+    { name: "Hari", phone: 8421800999 },
   ];
-const registeredUser=[];
-const nonRegisteredUser=[];
-let promise = new Promise((resolve,reject)=>{
-    data.forEach(async(element,index) => {
-        const resul = await User.findOne({phone:element.phone});
-        if(resul)
-        {
-            registeredUser.push(element)
-        }else
-        {
-            nonRegisteredUser.push(element)
+  try {
+    const registeredUser = [];
+    const nonRegisteredUser = [];
+    let promise = new Promise((resolve, reject) => {
+      data.forEach(async (element, index) => {
+        const resul = await User.findOne({ phone: element.phone });
+        if (resul) {
+          registeredUser.push(element)
+        } else {
+          nonRegisteredUser.push(element)
         }
-        if(index==data.length-1)
-        {
-            resolve(registeredUser)
+        if (index == data.length - 1) {
+          resolve(registeredUser)
         }
-    })});
-    promise.then(result=>{
-        // console.log({registeredUser})
-        res.status(200).json({registeredUser,nonRegisteredUser,message:"Contacts Fetched Successfully"})
+      })
+    });
+    promise.then(result => {
+      // console.log({registeredUser})
+      res.status(200).json({ registeredUser, nonRegisteredUser, message: "Contacts Fetched Successfully" })
     })
-}catch(err){
-    res.status(404).json({message:"Data Not Found", data:err})
+  } catch (err) {
+    res.status(404).json({ message: "Data Not Found", data: err })
 
-}
-    
-    
+  }
+
+
 };

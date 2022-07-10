@@ -21,10 +21,10 @@ const LocatSchema = new mongoose.Schema({
     },
     formattedAddress: String,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  }
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // }
 });
 
 // // Geocode & create location
