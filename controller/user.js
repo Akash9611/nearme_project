@@ -77,8 +77,8 @@ exports.loin = (req, res, next) => {
 //     });
 // }
 
-exports.postPhoneData = (req, res, next) => {
-  // const data=req.body 
+exports.getPhone = (req, res, next) => {
+  // const data=req.body.data
   const data = [
     { name: "Shubham", phone: 8421556999 },
     { name: "Akash", phone: 8421800900 },

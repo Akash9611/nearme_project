@@ -8,6 +8,6 @@ const checkAuth = require('../middleware/check-auth');
 router.post('/signup', UserController.createNewUser);
 
 router.post('/login', UserController.loin,);
-router.post('/cont', UserController.postPhoneData);
+router.get('/cont', UserController.getPhone);
 
 module.exports = router;
