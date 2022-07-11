@@ -61,7 +61,7 @@ exports.patchLocations = async (req, res, next) => {
     } },
     { new: true }
   ).then((doc) => {
-    // console.log(doc);
+    console.log(doc);
   
       res
         .status(202)
