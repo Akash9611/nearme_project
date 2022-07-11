@@ -20,10 +20,11 @@ exports.getLocations = async (req, res, next) => {
 
 //POST METHOD
 exports.addLocation = async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     const location = await Location.create({
-      LocationId:  req.params.id,
+      // LocationId:  req.params.id,
+      LocationId:  req.body.LocationId,
       address:req.body.address,
       location: {
        type: "Point",
@@ -36,7 +37,7 @@ exports.addLocation = async (req, res, next) => {
       data: location,
     });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     if (err.code === 11000) {
       return res.status(400).json({ error: "This Location already exists" });
     }
