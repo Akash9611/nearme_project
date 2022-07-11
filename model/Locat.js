@@ -10,17 +10,23 @@ const LocatSchema = new mongoose.Schema({
   address: {
     type: String,
   },
-  location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-    },
-    coordinates: {
-      type: [Number],
-      index: "2dsphere",
-    },
-    formattedAddress: String,
+  // location: {
+  //   type: {
+  //     type: String,
+  //     enum: ["Point"],
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     index: "2dsphere",
+  //   },
+  //   formattedAddress: String,
+  // },
+
+  coordinates: {
+    type: [Number],
+    index: "2dsphere",
   },
+
   // createdAt: {
   //   type: Date,
   //   default: Date.now,

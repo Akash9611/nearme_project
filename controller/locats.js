@@ -15,6 +15,8 @@ exports.getLocations = async (req, res, next) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
 //POST METHOD
 exports.addLocation = async (req, res, next) => {
   try {
