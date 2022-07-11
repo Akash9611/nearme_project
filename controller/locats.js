@@ -47,7 +47,7 @@ exports.patchLocations = async (req, res, next) => {
   console.log(req.params);
 
   Location.findOneAndUpdate(
-    { LocationId:  req.params.id },
+    { LocationId:  req.body.LocationId },
     { $set: { 
       // LocationId:req.body. LocationId,
       address:req.body.address,

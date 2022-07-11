@@ -7,6 +7,6 @@ router
   .route('/')
   .get(getLocations)
   router.post('/',addLocation);
-  router.patch('/:id',patchLocations);
+  router.patch('/',patchLocations);
 
 module.exports = router;
