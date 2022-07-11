@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 // const geocoder = require('../utils/geocoder');
 
 const LocatSchema = new mongoose.Schema({
-  LocationId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    //type: String,
-  },
+  // LocationId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  //   //type: String,
+  // },
+  LocationId:{type: String},
   address: {
     type: String,
   },
