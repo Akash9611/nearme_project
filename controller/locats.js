@@ -31,6 +31,7 @@ exports.addLocation = async (req, res, next) => {
        coordinates: [req.body.latitude, req.body.longitude]
       },
      });
+     
 
     return res.status(201).json({
       success: true,
