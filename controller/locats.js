@@ -31,17 +31,13 @@ exports.addLocation = async (req, res, next) => {
        coordinates: [req.body.latitude, req.body.longitude]
       },
      });
-     
-
+    
     return res.status(201).json({
       success: true,
       data: location,
     });
   } catch (err) {
     // console.error(err);
-    if (err.code === 11000) {
-      return res.status(400).json({ error: "This Location already exists" });
-    }
     res.status(500).json({ error: "Server error" });
   }
 };
