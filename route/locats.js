@@ -6,7 +6,7 @@ const { getLocations, addLocation, patchLocations } = require('../controller/loc
 router
   .route('/')
   .get(getLocations)
-  .post(addLocation);
+  router.post('/:id',addLocation);
   router.patch('/:id',patchLocations);
 
 module.exports = router;

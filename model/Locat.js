@@ -11,22 +11,27 @@ const LocatSchema = new mongoose.Schema({
     type: String,
   },
   location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-    },
-    coordinates: {
-      type: [Number],
-      index: "2dsphere",
-    },
-    formattedAddress: String,
-  },
+    type: { type: String },
+    coordinates: []
+   }
+  // location: {
+  //   type: {
+  //     type: String,
+  //     enum: ["Point"],
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     index: "2dsphere",
+  //   },
+  //   formattedAddress: String,
+  // },
   // createdAt: {
   //   type: Date,
   //   default: Date.now,
   // }
 });
 
+LocatSchema.index({ location: "2dsphere" });
 // // Geocode & create location
 // LocationSchema.pre('save', async function(next) {
 //   const loc = await geocoder.geocode(this.address);

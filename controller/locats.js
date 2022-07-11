@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Location = require("../model/Locat");
 
 //GET METHOD
@@ -19,8 +20,16 @@ exports.getLocations = async (req, res, next) => {
 
 //POST METHOD
 exports.addLocation = async (req, res, next) => {
+  console.log(req.body)
   try {
-    const location = await Location.create(req.body);
+    const location = await Location.create({
+      LocationId:  req.params.id,
+      address:req.body.address,
+      location: {
+       type: "Point",
+       coordinates: [req.body.latitude, req.body.longitude]
+      },
+     });
 
     return res.status(201).json({
       success: true,
@@ -40,24 +49,28 @@ exports.patchLocations = async (req, res, next) => {
   console.log(req.params);
 
   Location.findOneAndUpdate(
-    { Loaction: req.params.id },
+    { LocationId:  req.params.id },
     { $set: { 
-      LocationId:req.body. LocationId,
-      address:req.body. address,
-      location:req.body.location,
-      coordinates:req.body.coordinates,
-      createdAt:req.body.createdAt,
+      // LocationId:req.body. LocationId,
+      address:req.body.address,
+      location: {
+        type: "Point",
+        coordinates: [req.body.latitude, req.body.longitude]
+       }
+      // createdAt:req.body.createdAt,
     } },
     { new: true }
   ).then((doc) => {
-    if (doc) {
+    // console.log(doc);
+  
       res
         .status(202)
         .json({ message: "Location Upadated Successfully", result: doc });
-    } else {
-      res
+     
+  }).catch((e)=>{
+    console.log(e);
+    res
         .status(500)
-        .json({ message: "Unable to update location", result: err });
-    }
+        .json({ message: "Unable to update location", result: [],error:e });
   });
 };

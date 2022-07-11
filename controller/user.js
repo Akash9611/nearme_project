@@ -112,3 +112,17 @@ exports.getPhone = (req, res, next) => {
 
 
 };
+
+//GET DATA
+
+exports.getUserAbout= async(req,res,next)=>{
+
+  try{
+    const result = await User.find();
+
+    res.status(200).json({message :"About", result:result})
+  }catch(e){
+    res.status(404).json({message:"Data Not Found", result:e})
+  }
+  
+}
