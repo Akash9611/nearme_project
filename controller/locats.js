@@ -131,7 +131,7 @@ exports.patchLocations = async (req, res, next) => {
   console.log(req.params);
 
   Location.findOneAndUpdate(
-    { LocationId: req.body.LocationId },
+    { LocationId: mongoose.Types.ObjectId(req.body.LocationId) },
     {
       $set: {
         // LocationId:req.body. LocationId,
