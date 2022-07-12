@@ -4,11 +4,11 @@ const User = require("../model/user")
 
 //POST METHOD
 exports.addLocation = async (req, res, next) => {
-  // console.log(req.body)
+  console.log(req.body);
   try {
     const location = await Location.create({
       // LocationId:  req.params.id,
-      LocationId: req.body.LocationId,
+      LocationId: mongoose.Types.ObjectId(req.body.LocationId),
 
       address: req.body.address,
       location: {
@@ -20,10 +20,11 @@ exports.addLocation = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: location,
+      message:"User location Fetched"
     });
   } catch (err) {
-    // console.error(err);
-    res.status(500).json({ error: "Server error" });
+    console.error(err);
+    res.status(500).json({ error: 'server error' });
   }
 };
 
