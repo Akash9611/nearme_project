@@ -120,7 +120,8 @@ exports.getUserAbout = async (req, res, next) => {
 console.log(req.params);
 
   try {
-    const result = await User.findOne({_id:req.params.id});
+    const result = await User.findById({_id:req.params.id});
+    // const result = await User.findById();
     
     res.status(200).json({ message: "About", result: result })
   } catch (e) {
@@ -128,3 +129,17 @@ console.log(req.params);
   }
 
 }
+
+// exports.getUserAbout = async (req, res, next) => {
+// console.log(req.params);
+
+//   try {
+//     const result = await User.findById({id:req.body.id});
+//     // const result = await User.findById();
+    
+//     res.status(200).json({ message: "About", result: result })
+//   } catch (e) {
+//     res.status(404).json({ message: "Data Not Found", result: e })
+//   }
+
+// }
