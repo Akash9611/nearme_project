@@ -80,10 +80,11 @@ exports.loin = (req, res, next) => {
 exports.getPhone = (req, res, next) => {
   // const data=req.body.data
   const data = [
-    { name: "Shubham", phone: 8421556999 },
-    { name: "Akash", phone: 8421800900 },
-    { name: "Harsh", phone: 8421801999 },
-    { name: "Hari", phone: 8421800999 },
+  { name: "Shubham", phone:  8766824323 },
+    { name: "Akash Desai", phone: 8421800904 },
+    { name: "Harsha", phone:9325661017 },
+    { name: "Asif Mulla", phone: 9834327741 },
+    { name: "Omkar Shinde", phone: 8788416096 },
   ];
   try {
     const registeredUser = [];
@@ -116,10 +117,11 @@ exports.getPhone = (req, res, next) => {
 //GET DATA
 
 exports.getUserAbout = async (req, res, next) => {
+console.log(req.params);
 
   try {
-    const result = await User.find();
-
+    const result = await User.findOne({_id:req.params.id});
+    
     res.status(200).json({ message: "About", result: result })
   } catch (e) {
     res.status(404).json({ message: "Data Not Found", result: e })
