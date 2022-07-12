@@ -15,6 +15,7 @@ exports.addLocation = async (req, res, next) => {
         type: "Point",
         coordinates: [req.body.latitude, req.body.longitude]
       },
+      phone:req.body.phone
     });
 
     return res.status(201).json({

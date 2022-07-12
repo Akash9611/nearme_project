@@ -29,45 +29,49 @@ exports.createNewUser = (req, res, next) => {
   });
 };
 
-exports.loin = (req, res, next) => {
-  let fetchedUser;
-  //  console.log(req.body);
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      //    console.log(user);
-      if (!user) {
-        return res.status(401).json({
-          message: "auth failed tyty",
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then((result) => {
-      console.log(result);
-      if (!result) {
-        return res.status(401).json({
-          message: "auth failed",
-        });
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "they_should_no_longer",
-        {
-          expiresIn: "1hr",
+exports.loin = async (req, res, next) => {
+
+  try
+  {
+
+    let fetchedUser;
+    //  console.log(req.body);
+  const response =  await User.findOne({ email: req.body.email });
+  
+  if (!user) {
+    return res.status(401).json({
+      message: "auth failed tyty",
+    });
+  }
+  fetchedUser = user;
+   const passcheck =  await bcrypt.compare(req.body.password, user.password);
+      if (!passcheck) {
+          return res.status(401).json({
+            message: "auth failed",
+          });
         }
-      );
-      res.status(200).json({
-        token: token,
-        userId: fetchedUser._id,
-        expiresIn: 3600,
-      });
-    })
-    .catch((e) => {
-      res.status(401).json({
+        const token = jwt.sign(
+          { email: fetchedUser.email, userId: fetchedUser._id },
+          "they_should_no_longer",
+          {
+            expiresIn: "1hr",
+          }
+        );
+        return res.status(200).json({
+          token: token,
+          userId: fetchedUser._id,
+          expiresIn: 3600,
+        });
+  }catch(e)
+  {
+      return res.status(401).json({
         message: "auth failed",
       });
-    });
+
+  }
+    // })
+    // .catch((e) => {
+    // });
 };
 
 // exports.getPhone=(req, res, next)=>{
@@ -104,10 +108,10 @@ exports.getPhone = (req, res, next) => {
     });
     promise.then(result => {
       // console.log({registeredUser})
-      res.status(200).json({ registeredUser, nonRegisteredUser, message: "Contacts Fetched Successfully" })
+      return res.status(200).json({ registeredUser, nonRegisteredUser, message: "Contacts Fetched Successfully" })
     })
   } catch (err) {
-    res.status(404).json({ message: "Data Not Found", data: err })
+    return     res.status(404).json({ message: "Data Not Found", data: err })
 
   }
 
@@ -123,9 +127,9 @@ console.log(req.params);
     const result = await User.findById({_id:req.params.id});
     // const result = await User.findById();
     
-    res.status(200).json({ message: "About", result: result })
+    return res.status(200).json({ message: "About", result: result })
   } catch (e) {
-    res.status(404).json({ message: "Data Not Found", result: e })
+    return res.status(404).json({ message: "Data Not Found", result: e })
   }
 
 }
