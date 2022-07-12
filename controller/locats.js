@@ -105,8 +105,8 @@ exports.getNearLocations = async (req, res, next) => {
         $nearSphere: {
           $geometry: {
             type: "point",
-             coordinates: [req.body.latitude, req.body.longitude,]
-            // coordinates: [16.7033673,74.22148]
+            // coordinates: [req.body.latitude, req.body.longitude,]
+            coordinates: [16.7033673,74.22148]
           },
           $minDistance: 0,
           $maxDistance: 10000
@@ -127,7 +127,7 @@ exports.getNearLocations = async (req, res, next) => {
 };
 
 //Patch Method
-exports.patchLocations = async (req, res, next) => {
+exports.patchLocations = (req, res, next) => {
   console.log(req.params);
 
   Location.findOneAndUpdate(
@@ -148,7 +148,7 @@ exports.patchLocations = async (req, res, next) => {
     console.log(doc);
 
     res
-      .status(202)
+      .status(200)
       .json({ message: "Location Upadated Successfully", result: doc });
 
   }).catch((e) => {
