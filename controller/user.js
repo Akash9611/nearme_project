@@ -16,13 +16,13 @@ exports.createNewUser = (req, res, next) => {
     user
       .save()
       .then((result) => {
-        res.status(201).json({
+        return res.status(201).json({
           message: "user create successfully",
           result: result,
         });
       })
       .catch((err) => {
-        res.status(500).json({
+       return res.status(500).json({
           error: err,
         });
       });
