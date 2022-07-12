@@ -3,10 +3,38 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const user = require("../model/user");
 
+// exports.createNewUser = (req, res, next) => {
+//   // console.log(req.body);
+//   bcrypt.hash(req.body.password, 10).then((hash) => {
+//     const user = new User({
+//       name: req.body.name,
+//       email: req.body.email,
+//       phone: req.body.phone,
+//       password: hash,
+//     });
+
+//     user
+//       .save()
+//       .then((result) => {
+//         return res.status(201).json({
+//           message: "user create successfully",
+//           result: result,
+//         });
+//       })
+//      .catch((err) => {
+//        return res.status(500).json({
+//           error: err,
+//         });
+//       });
+//   });
+// };
+
 exports.createNewUser = (req, res, next) => {
   // console.log(req.body);
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
+  bcrypt.hash(req.body.password, 10).then(async(hash) => {
+   try{
+   
+    const user = await new User({
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
@@ -20,14 +48,18 @@ exports.createNewUser = (req, res, next) => {
           message: "user create successfully",
           result: result,
         });
-      })
-      .catch((err) => {
+      })}catch(e){
+
+return res.status(500).json({message:"server error"})
+      }
+    }).catch((err) => {
        return res.status(500).json({
           error: err,
         });
       });
-  });
+ 
 };
+
 
 exports.loin = async(req, res, next) => {
   let fetchedUser;
