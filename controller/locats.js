@@ -20,7 +20,7 @@ exports.addLocation = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: location,
-      message:"User location Fetched"
+      message: "User location Fetched"
     });
   } catch (err) {
     console.error(err);
@@ -67,25 +67,25 @@ exports.getLocations = async (req, res, next) => {
         // name: { $arrayElemAt: ["userInfo.name", 1] },
       }
     }
-  ]) .then((doc) => {
-    
-    updateUserInfo =[];
-    doc.forEach(r=>{
+  ]).then((doc) => {
+
+    updateUserInfo = [];
+    doc.forEach(r => {
       // console.log(r.userInfo);
-          updateUserInfo.push( {
-      address:r.address,
-      latitude:r.location.coordinates[0],
-      longitude:r.location.coordinates[1],
-      name:r.userInfo.length!=0? r.userInfo[0].name : ''
+      updateUserInfo.push({
+        address: r.address,
+        latitude: r.location.coordinates[0],
+        longitude: r.location.coordinates[1],
+        name: r.userInfo.length != 0 ? r.userInfo[0].name : ''
+      })
     })
-    })
-    
-      res.status(200).json({
-        success: true,
-        message: "Data fetched successfully",
-        data: updateUserInfo,
-      });
-    })
+
+    res.status(200).json({
+      success: true,
+      message: "Data fetched successfully",
+      data: updateUserInfo,
+    });
+  })
     .catch((e) => {
       console.log(e);
       res.status(404).json({
@@ -105,10 +105,10 @@ exports.getNearLocations = async (req, res, next) => {
         $nearSphere: {
           $geometry: {
             type: "point",
-            // coordinates: [req.param.longitude, req.param.latitude]
-            coordinates: [16.6677372, 74.206321]
+             coordinates: [req.body.latitude, req.body.longitude,]
+            // coordinates: [16.7033673,74.22148]
           },
-          $minDistance: 1,
+          $minDistance: 0,
           $maxDistance: 10000
         }
       }
