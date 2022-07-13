@@ -107,10 +107,10 @@ exports.getNearLocations = async (req, res, next) => {
         $nearSphere: {
           $geometry: {
             type: "point",
-            coordinates: [req.body.latitude, req.body.longitude,]
-            //   coordinates: [16.7033673,74.22148]
+           coordinates: [req.body.latitude, req.body.longitude,]
+            //  coordinates: [16.716125,74.17174]
           },
-          $minDistance: 0,
+          $minDistance: 1,
           $maxDistance: 10000
         }
       }
@@ -119,8 +119,7 @@ exports.getNearLocations = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: nearestLocations,
-      message: "Users Found Successfully",
-      result: doc
+      message: "Users Found Successfully"
     });
 
   } catch (e) {

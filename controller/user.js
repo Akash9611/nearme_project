@@ -31,29 +31,25 @@ const user = require("../model/user");
 
 exports.createNewUser = (req, res, next) => {
   // console.log(req.body);
-  bcrypt.hash(req.body.password, 10).then(async(hash) => {
-   try{
-   
-    const user = await new User({
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const user = new User({
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
       password: hash,
     });
 
-    user
-      .save()
+    user.save()
       .then((result) => {
+        if(result){
         return res.status(201).json({
           message: "user create successfully",
           result: result,
-        });
-      })}catch(e){
-
-return res.status(500).json({message:"server error"})
-      }
-    }).catch((err) => {
-       return res.status(500).json({
+        });}
+      })
+         }).catch((err) => {
+       res.status(500).json({
+        message:"server side error",
           error: err,
         });
       });
