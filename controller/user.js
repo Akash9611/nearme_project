@@ -146,8 +146,7 @@ exports.loin = async(req, res, next) => {
      const respons=await User.findOne({ email: req.body.email }).then((user) => {
           if (!user || user == null) {
               return res.status(401).json({
-                  message: 'Account does not exists',
-                  result:respons
+                  message: 'Account does not exists'
               })
           }
         
@@ -168,8 +167,8 @@ exports.loin = async(req, res, next) => {
                 });
      return res.status(200).json({
           token: token,
-          expiresIn: 3600,
-          userId: fetchedUser._id
+          userId: fetchedUser._id,
+          expiresIn: 3600
        
       });
             }
