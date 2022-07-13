@@ -64,20 +64,23 @@ exports.createNewUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
 
       const user = new User({
-          email: req.body.email,
-          password: hash
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: hash,
       });
 
-      user.save().then(result => {
+      user.save().then((result) => {
 
           res.status(201).json({
               message: 'user create successfully',
               result: result
           });
 
-      }).catch(err => {
+      }).catch((err) => {
 
           res.status(500).json({
+            message:"server side error",
               error: err
           });
       })
