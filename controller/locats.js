@@ -75,13 +75,13 @@ exports.getLocations = async (req, res, next) => {
 
     updateUserInfo = [];
     doc.forEach(r => {
-      // console.log(r.userInfo);
+      console.log(r.userInfo);
       updateUserInfo.push({
         address: r.address,
         latitude: r.location.coordinates[0],
         longitude: r.location.coordinates[1],
         name: r.userInfo.length != 0 ? r.userInfo[0].name : '',
-        phone: r.userInfo.length != 0 ? r.userInfo[0].phone : ''
+        phone: r.userInfo.length != 0 ? r.userInfo[0].phone : '',
       })
     })
 
