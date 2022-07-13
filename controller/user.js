@@ -72,14 +72,14 @@ exports.createNewUser = (req, res, next) => {
 
       user.save().then((result) => {
 
-          res.status(201).json({
+         return res.status(201).json({
               message: 'user create successfully',
               result: result
           });
 
       }).catch((err) => {
 
-          res.status(500).json({
+        return  res.status(500).json({
             message:"server side error",
               error: err
           });
@@ -149,10 +149,7 @@ exports.loin = (req, res, next) => {
                   message: 'Account does not exists'
               })
           }
-          // console.log(user);
-          // console.log(req.body.password);
-          // console.log(user.password);
-
+        
           fetchedUser = user;
           // user.password = '12345678';
 
@@ -171,6 +168,7 @@ exports.loin = (req, res, next) => {
      return res.status(200).json({
           token: token,
           expiresIn: 3600,
+          userId: fetchedUser._id
           // data: user
       });
             }
