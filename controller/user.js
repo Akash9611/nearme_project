@@ -139,14 +139,15 @@ exports.createNewUser = (req, res, next) => {
 // };
 
 
-exports.loin = (req, res, next) => {
+exports.loin = async(req, res, next) => {
   let fetchedUser;
   console.log(req.body);
   try {
-      User.findOne({ email: req.body.email }).then((user) => {
+     const respons=await User.findOne({ email: req.body.email }).then((user) => {
           if (!user || user == null) {
               return res.status(401).json({
-                  message: 'Account does not exists'
+                  message: 'Account does not exists',
+                  result:respons
               })
           }
         
@@ -169,7 +170,7 @@ exports.loin = (req, res, next) => {
           token: token,
           expiresIn: 3600,
           userId: fetchedUser._id
-          // data: user
+       
       });
             }
           })
@@ -181,7 +182,8 @@ exports.loin = (req, res, next) => {
               message: 'auth failed ..'
           });
       })
-  } catch (err) {
+  } 
+  catch (err) {
     console.log(err)
      return res.status(400).json({
           message: 'Something went wrong'

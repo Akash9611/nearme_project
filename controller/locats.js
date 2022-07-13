@@ -26,7 +26,7 @@ exports.addLocation = async (req, res, next) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'server error' });
+  return res.status(500).json({ error: 'server error' });
   }
 };
 
@@ -82,7 +82,7 @@ exports.getLocations = async (req, res, next) => {
       })
     })
 
-    res.status(200).json({
+   return res.status(200).json({
       success: true,
       message: "Data fetched successfully",
       data: updateUserInfo,
@@ -90,7 +90,7 @@ exports.getLocations = async (req, res, next) => {
   })
     .catch((e) => {
       console.log(e);
-      res.status(404).json({
+     return res.status(404).json({
         success: false,
         message: "Data not found",
       });
@@ -138,8 +138,8 @@ exports.getNearLocations =  (req, res, next) => {
       {
         $geoNear:{
           
-         // near:{type:"point", coordinates:[req.body.latitude, req.body.longitude]}
-            near:{type:"point",coordinates:[16.716125,74.17174]},
+         near:{type:"point", coordinates:[req.body.latitude, req.body.longitude]},
+            // near:{type:"point",coordinates:[16.716125,74.17174]},
           distanceField: "dist.calculated",
         maxDistance: 10000,
         key:'location'
@@ -166,13 +166,13 @@ exports.getNearLocations =  (req, res, next) => {
       }
     ]).then((doc)=>{
     if(doc){
-      console.log(e)
-      res.status(200).json({message:"data fetchs successfully",result:doc});
+      // console.log(e)
+      return res.status(200).json({message:"data fetchs successfully",result:doc});
     }
     }).catch((e)=>{
-      console.log(e)
+      // console.log(e)
 
-      res.status(500).json({message:"Server error",result:e});
+     return res.status(500).json({message:"Server error",result:e});
 
     })  ;
 };
@@ -251,13 +251,13 @@ exports.patchLocations = (req, res, next) => {
   ).then((doc) => {
     console.log(doc);
 
-    res
+   return res
       .status(200)
       .json({ message: "Location Upadated Successfully", result: doc });
 
   }).catch((e) => {
     console.log(e);
-    res
+    return res
       .status(500)
       .json({ message: "Unable to update location", result: [], error: e });
   });
