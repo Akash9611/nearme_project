@@ -1,3 +1,4 @@
+const e = require("express");
 const { default: mongoose } = require("mongoose");
 const Location = require("../model/Locat");
 const User = require("../model/user")
@@ -98,36 +99,87 @@ exports.getLocations = async (req, res, next) => {
 
 //To get nearest user location
 
-exports.getNearLocations = async (req, res, next) => {
-  console.log(req.params);
+// exports.getNearLocations = async (req, res, next) => {
+//   console.log(req.params);
 
-  try {
-    const nearestLocations = await Location.find({
-      location: {
-        $nearSphere: {
-          $geometry: {
-            type: "point",
-           coordinates: [req.body.latitude, req.body.longitude,]
-            //  coordinates: [16.716125,74.17174]
-          },
-          $minDistance: 1,
-          $maxDistance: 10000
+//   try {
+//     const nearestLocations = await Location.find({
+//       location: {
+//         $nearSphere: {
+//           $geometry: {
+//             type: "point",
+//            coordinates: [req.body.latitude, req.body.longitude,]
+//             //  coordinates: [16.716125,74.17174]
+//           },
+//           $minDistance: 1,
+//           $maxDistance: 10000
+//         }
+//       }
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       data: nearestLocations,
+//       message: "Users Found Successfully"
+//     });
+
+//   } catch (e) {
+//     res.status(200).json({ message: "Data not found", error: e });
+
+//   };
+// };
+
+// ----------------------------------------------------------------------------------------------------
+
+
+exports.getNearLocations =  (req, res, next) => {
+  console.log(req.params);
+    Location.aggregate([
+      {
+        $geoNear:{
+          
+         // near:{type:"point", coordinates:[req.body.latitude, req.body.longitude]}
+            near:{type:"point",coordinates:[16.716125,74.17174]},
+          distanceField: "dist.calculated",
+        maxDistance: 10000,
+        key:'location'
+          }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "LocationId",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      {
+        $project: {
+          address: 1,
+          location: 1,
+          // name:"$userInfo",
+          "userInfo.name": 1,
+          "userInfo.phone":1,
+          // name:"$userInfo.name"
+          // name: { $arrayElemAt: ["userInfo.name", 1] },
         }
       }
-    });
+    ]).then((doc)=>{
+    if(doc){
+      console.log(e)
+      res.status(200).json({message:"data fetchs successfully",result:doc});
+    }
+    }).catch((e)=>{
+      console.log(e)
 
-    res.status(200).json({
-      success: true,
-      data: nearestLocations,
-      message: "Users Found Successfully"
-    });
+      res.status(500).json({message:"Server error",result:e});
 
-  } catch (e) {
-    res.status(200).json({ message: "Data not found", error: e });
-
-  };
+    })  ;
 };
 
+
+// -------------------------------------------------------------------------------------------------
+//Emergency nearest location finding code
 // exports.getNearLocations =  (req, res, next) => {
 //   console.log(req.params);
 //     Location.aggregate([

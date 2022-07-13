@@ -39,7 +39,7 @@ exports.createNewUser = (req, res, next) => {
       password: hash,
     });
 
-    user.save()
+    users.save()
       .then((result) => {
         if(result){
         return res.status(201).json({
@@ -60,7 +60,7 @@ exports.createNewUser = (req, res, next) => {
 exports.loin = async(req, res, next) => {
   let fetchedUser;
   //  console.log(req.body);
-const response =  await User.findOne({ email: req.body.email })
+User.findOne({ email: req.body.email })
     .then((user) => {
       //    console.log(user);
       if (!user) {
