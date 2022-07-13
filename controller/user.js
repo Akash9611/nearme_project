@@ -139,11 +139,11 @@ exports.createNewUser = (req, res, next) => {
 // };
 
 
-exports.loin = async(req, res, next) => {
+exports.loin = (req, res, next) => {
   let fetchedUser;
   console.log(req.body);
   try {
-     const respons=await User.findOne({ email: req.body.email }).then((user) => {
+    User.findOne({ email: req.body.email }).then((user) => {
           if (!user || user == null) {
               return res.status(401).json({
                   message: 'Account does not exists'
@@ -167,8 +167,8 @@ exports.loin = async(req, res, next) => {
                 });
      return res.status(200).json({
           token: token,
-          userId: fetchedUser._id,
-          expiresIn: 3600
+          expiresIn: 3600,
+          userId: fetchedUser._id
        
       });
             }

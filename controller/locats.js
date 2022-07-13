@@ -26,7 +26,7 @@ exports.addLocation = async (req, res, next) => {
     });
   } catch (err) {
     console.error(err);
-  return res.status(500).json({ error: 'server error' });
+  res.status(500).json({ error: 'server error' });
   }
 };
 
@@ -85,7 +85,7 @@ exports.getLocations = async (req, res, next) => {
       })
     })
 
-   return res.status(200).json({
+   res.status(200).json({
       success: true,
       message: "Data fetched successfully",
       data: updateUserInfo,
@@ -93,7 +93,7 @@ exports.getLocations = async (req, res, next) => {
   })
     .catch((e) => {
       console.log(e);
-     return res.status(404).json({
+      res.status(404).json({
         success: false,
         message: "Data not found",
       });
