@@ -57,7 +57,7 @@ exports.createNewUser = (req, res, next) => {
 };
 
 
-exports.loin = async(req, res, next) => {
+exports.loin = (req, res, next) => {
   let fetchedUser;
   //  console.log(req.body);
 User.findOne({ email: req.body.email })
@@ -92,7 +92,7 @@ User.findOne({ email: req.body.email })
       });
     })
     .catch((e) => {
-      return res.status(401).json({
+       res.status(401).json({
         message: "auth failed",
       });
     });
