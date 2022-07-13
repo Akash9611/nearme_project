@@ -156,7 +156,7 @@ exports.loin = (req, res, next) => {
           fetchedUser = user;
           // user.password = '12345678';
 
-        return  bcrypt.compare(req.body.password, user.password).then(pass=>{
+          bcrypt.compare(req.body.password, user.password).then(pass=>{
             if(!pass){
              return res.status(401).json({
                 message: 'Incorrect Password'
