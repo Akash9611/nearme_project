@@ -123,11 +123,12 @@ exports.login = (req, res, next) => {
 exports.getPhone = (req, res, next) => {
   // const data=req.body.data
   const data = [
-  { name: "Shubham", phone:  8766824323 },
+  { name: "Shubham Singare", phone:  8766824323 },
     { name: "Akash Desai", phone: 8421800904 },
-    { name: "Harsha", phone:9325661017 },
+    { name: "Harsh Tibile", phone:9325661017 },
     { name: "Asif Mulla", phone: 9834327741 },
     { name: "Omkar Shinde", phone: 8788416096 },
+    {name: "Alisha Mulla", phone:9172609779 }
   ];
   try {
     const registeredUser = [];
