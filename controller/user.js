@@ -3,61 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const user = require("../model/user");
 
-// exports.createNewUser = (req, res, next) => {
-//   // console.log(req.body);
-//   bcrypt.hash(req.body.password, 10).then((hash) => {
-//     const user = new User({
-//       name: req.body.name,
-//       email: req.body.email,
-//       phone: req.body.phone,
-//       password: hash,
-//     });
-
-//     user
-//       .save()
-//       .then((result) => {
-//         return res.status(201).json({
-//           message: "user create successfully",
-//           result: result,
-//         });
-//       })
-//      .catch((err) => {
-//        return res.status(500).json({
-//           error: err,
-//         });
-//       });
-//   });
-// // };
-
-// exports.createNewUser = (req, res, next) => {
-//   // console.log(req.body);
-//   bcrypt.hash(req.body.password, 10).then((hash) => {
-//     const user = new User({
-//       name: req.body.name,
-//       email: req.body.email,
-//       phone: req.body.phone,
-//       password: hash,
-//     });
-
-//     users.save()
-//       .then((result) => {
-//         if(result){
-//         return res.status(201).json({
-//           message: "user create successfully",
-//           result: result,
-//         });}
-//       })
-//          }).catch((err) => {
-//        res.status(500).json({
-//         message:"server side error",
-//           error: err,
-//         });
-//       });
- 
-// };
-
-
-
 exports.createNewUser = (req, res, next) => {
 
   console.log(req.body);
@@ -87,57 +32,6 @@ exports.createNewUser = (req, res, next) => {
   })
 
 }
-
-// exports.loin = async(req, res, next) => {
-//   let fetchedUser;
-//   //  console.log(req.body);
-//    User.findOne({ email: req.body.email })
-//     .then((user) => {
-//       try{   if (!user || user == null) {
-//         return res.status(401).json({
-//             message: 'Account does not exists'
-//         })
-//     }
-       
-//         fetchedUser = user;
-//         return bcrypt.compare(req.body.password, user.password);
-//       }catch(e)
-//       {
-//         return res.status(401).json({
-//           message: "auth failed tyty",
-//         });
-//       }
-//         //  console.log(user);
-    
-  
-//     })
-//     .then((result) => {
-//       console.log(result);
-//       if (!result) {
-//         return res.status(401).json({
-//           message: "auth failed",
-//         });
-//       }
-//       const token = jwt.sign(
-//         { email: fetchedUser.email, userId: fetchedUser._id },
-//         "they_should_no_longer",
-//         {
-//           expiresIn: "1hr",
-//         }
-//       );
-//       return res.status(200).json({
-//         token: token,
-//         userId: fetchedUser._id,
-//         expiresIn: 3600,
-//       });
-//     })
-//     .catch((e) => {
-//       return res.status(401).json({
-//         message: "auth failed",
-//       });
-//     });
-// };
-
 
 exports.loin = (req, res, next) => {
   let fetchedUser;
@@ -174,7 +68,7 @@ exports.loin = (req, res, next) => {
             }
           })
 
-          // return user.password !== req.body.password;
+          
       }).catch(e => {
           console.log(e);
         return  res.status(401).json({
@@ -190,12 +84,6 @@ exports.loin = (req, res, next) => {
   }
 }
 
-// exports.getPhone=(req, res, next)=>{
-//         User.find({},'phone',function(err, data){
-//         res.json(data);
-
-//     });
-// }
 
 exports.getPhone = (req, res, next) => {
   // const data=req.body.data
