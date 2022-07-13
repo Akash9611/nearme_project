@@ -156,7 +156,7 @@ exports.loin = (req, res, next) => {
           fetchedUser = user;
           // user.password = '12345678';
 
-          bcrypt.compare(req.body.password, user.password).then(pass=>{
+        return  bcrypt.compare(req.body.password, user.password).then(pass=>{
             if(!pass){
              return res.status(401).json({
                 message: 'Incorrect Password'
@@ -179,13 +179,13 @@ exports.loin = (req, res, next) => {
           // return user.password !== req.body.password;
       }).catch(e => {
           console.log(e);
-          res.status(401).json({
+        return  res.status(401).json({
               message: 'auth failed ..'
           });
       })
   } catch (err) {
     console.log(err)
-      res.status(401).json({
+     return res.status(400).json({
           message: 'Something went wrong'
       });
   }
