@@ -33,93 +33,93 @@ exports.createNewUser = (req, res, next) => {
 
 }
 
+exports.login = (req, res, next) => {
+  let fetchedUser;
+  console.log(req.body);
+  try {
+    User.findOne({ email: req.body.email }).then((user) => {
+          if (!user || user == null) {
+              return res.status(401).json({
+                  message: 'Account does not exists'
+              })
+          }
+        
+          fetchedUser = user;
+          // user.password = '12345678';
+
+          bcrypt.compare(req.body.password, user.password).then(pass=>{
+            if(!pass){
+             return res.status(401).json({
+                message: 'Incorrect Password'
+            });
+            }
+            else{
+              const token = jwt.sign(  { email: fetchedUser.email, userId: fetchedUser._id },
+                "they_should_no_longer",
+                {
+                  expiresIn: "1hr",
+                });
+     return res.status(200).json({
+          token: token,
+          expiresIn: 3600,
+          userId: fetchedUser._id
+       
+      });
+            }
+          })
+
+          
+      }).catch(e => {
+          console.log(e);
+        return  res.status(401).json({
+              message: 'auth failed ..'
+          });
+      })
+  } 
+  catch (err) {
+    console.log(err)
+     return res.status(400).json({
+          message: 'Something went wrong'
+      });
+  }
+}
+
+
 // exports.loin = (req, res, next) => {
 //   let fetchedUser;
 //   console.log(req.body);
-//   try {
-//     User.findOne({ email: req.body.email }).then((user) => {
-//           if (!user || user == null) {
-//               return res.status(401).json({
-//                   message: 'Account does not exists'
-//               })
-//           }
-        
-//           fetchedUser = user;
-//           // user.password = '12345678';
-
-//           bcrypt.compare(req.body.password, user.password).then(pass=>{
-//             if(!pass){
-//              return res.status(401).json({
-//                 message: 'Incorrect Password'
-//             });
-//             }
-//             else{
-//               const token = jwt.sign(  { email: fetchedUser.email, userId: fetchedUser._id },
-//                 "they_should_no_longer",
-//                 {
-//                   expiresIn: "1hr",
-//                 });
-//      return res.status(200).json({
-//           token: token,
-//           expiresIn: 3600,
-//           userId: fetchedUser._id
-       
-//       });
-//             }
+//   User.findOne({ email: req.body.email }).then((user) => {
+//       console.log(user);
+//       if (!user || user == null) {
+//           return res.status(401).json({
+//               message: 'auth failed'
 //           })
-
-          
-//       }).catch(e => {
-//           console.log(e);
-//         return  res.status(401).json({
-//               message: 'auth failed ..'
-//           });
-//       })
-//   } 
-//   catch (err) {
-//     console.log(err)
-//      return res.status(400).json({
-//           message: 'Something went wrong'
+//       }
+//       fetchedUser = user;
+//       return bcrypt.compare(req.body.password, user.password);
+//   }).then((result) =>{
+//     if (!result) {
+//       return res.status(401).json({
+//         message: 'auth failed'
 //       });
-//   }
-// }
+//     }
+//     const token = jwt.sign({ email: fetchedUser.email, userId: fetchedUser._id },
+//        "It_would_NO_longer_exist", {
+//       expiresIn: "1hr",
+//     });
+//     res.status(200).json({
+//       token: token,
+//       expiresIn: 3600,
+//       userId: fetchedUser._id,
+//     });
 
-
-exports.loin = (req, res, next) => {
-  let fetchedUser;
-  console.log(req.body);
-  User.findOne({ email: req.body.email }).then((user) => {
-      console.log(user);
-      if (!user || user == null) {
-          return res.status(401).json({
-              message: 'auth failed'
-          })
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-  }).then((result) =>{
-    if (!result) {
-      return res.status(401).json({
-        message: 'auth failed'
-      });
-    }
-    const token = jwt.sign({ email: fetchedUser.email, userId: fetchedUser._id },
-       "It_would_NO_longer_exist", {
-      expiresIn: "1hr",
-    });
-    res.status(200).json({
-      token: token,
-      expiresIn: 3600,
-      userId: fetchedUser._id,
-    });
-
-  }).catch((e) => {
-    console.log(e);
-      res.status(401).json({
-          message: 'auth failed'
-      });
-  })
-};
+//   }).catch((e) => {
+//     console.log(e);
+//       res.status(401).json({
+//           message: 'auth failed'
+//       });
+//   })
+// };
 exports.getPhone = (req, res, next) => {
   // const data=req.body.data
   const data = [
