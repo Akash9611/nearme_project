@@ -27,76 +27,166 @@ const user = require("../model/user");
 //         });
 //       });
 //   });
+// // };
+
+// exports.createNewUser = (req, res, next) => {
+//   // console.log(req.body);
+//   bcrypt.hash(req.body.password, 10).then((hash) => {
+//     const user = new User({
+//       name: req.body.name,
+//       email: req.body.email,
+//       phone: req.body.phone,
+//       password: hash,
+//     });
+
+//     users.save()
+//       .then((result) => {
+//         if(result){
+//         return res.status(201).json({
+//           message: "user create successfully",
+//           result: result,
+//         });}
+//       })
+//          }).catch((err) => {
+//        res.status(500).json({
+//         message:"server side error",
+//           error: err,
+//         });
+//       });
+ 
 // };
 
-exports.createNewUser = (req, res, next) => {
-  // console.log(req.body);
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: hash,
-    });
 
-    users.save()
-      .then((result) => {
-        if(result){
-        return res.status(201).json({
-          message: "user create successfully",
-          result: result,
-        });}
-      })
-         }).catch((err) => {
-       res.status(500).json({
-        message:"server side error",
-          error: err,
-        });
+
+exports.createNewUser = (req, res, next) => {
+
+  console.log(req.body);
+  bcrypt.hash(req.body.password, 10).then(hash => {
+
+      const user = new User({
+          email: req.body.email,
+          password: hash
       });
- 
-};
+
+      user.save().then(result => {
+
+          res.status(201).json({
+              message: 'user create successfully',
+              result: result
+          });
+
+      }).catch(err => {
+
+          res.status(500).json({
+              error: err
+          });
+      })
+  })
+
+}
+
+// exports.loin = async(req, res, next) => {
+//   let fetchedUser;
+//   //  console.log(req.body);
+//    User.findOne({ email: req.body.email })
+//     .then((user) => {
+//       try{   if (!user || user == null) {
+//         return res.status(401).json({
+//             message: 'Account does not exists'
+//         })
+//     }
+       
+//         fetchedUser = user;
+//         return bcrypt.compare(req.body.password, user.password);
+//       }catch(e)
+//       {
+//         return res.status(401).json({
+//           message: "auth failed tyty",
+//         });
+//       }
+//         //  console.log(user);
+    
+  
+//     })
+//     .then((result) => {
+//       console.log(result);
+//       if (!result) {
+//         return res.status(401).json({
+//           message: "auth failed",
+//         });
+//       }
+//       const token = jwt.sign(
+//         { email: fetchedUser.email, userId: fetchedUser._id },
+//         "they_should_no_longer",
+//         {
+//           expiresIn: "1hr",
+//         }
+//       );
+//       return res.status(200).json({
+//         token: token,
+//         userId: fetchedUser._id,
+//         expiresIn: 3600,
+//       });
+//     })
+//     .catch((e) => {
+//       return res.status(401).json({
+//         message: "auth failed",
+//       });
+//     });
+// };
 
 
 exports.loin = (req, res, next) => {
   let fetchedUser;
-  //  console.log(req.body);
-User.findOne({ email: req.body.email })
-    .then((user) => {
-      //    console.log(user);
-      if (!user) {
-        return res.status(401).json({
-          message: "auth failed tyty",
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then((result) => {
-      console.log(result);
-      if (!result) {
-        return res.status(401).json({
-          message: "auth failed",
-        });
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "they_should_no_longer",
-        {
-          expiresIn: "1hr",
-        }
-      );
-      return res.status(200).json({
-        token: token,
-        userId: fetchedUser._id,
-        expiresIn: 3600,
+  console.log(req.body);
+  try {
+      User.findOne({ email: req.body.email }).then((user) => {
+          if (!user || user == null) {
+              return res.status(401).json({
+                  message: 'Account does not exists'
+              })
+          }
+          // console.log(user);
+          // console.log(req.body.password);
+          // console.log(user.password);
+
+          fetchedUser = user;
+          // user.password = '12345678';
+
+          bcrypt.compare(req.body.password, user.password).then(pass=>{
+            if(!pass){
+             return res.status(401).json({
+                message: 'Incorrect Password'
+            });
+            }
+            else{
+              const token = jwt.sign(  { email: fetchedUser.email, userId: fetchedUser._id },
+                "they_should_no_longer",
+                {
+                  expiresIn: "1hr",
+                });
+     return res.status(200).json({
+          token: token,
+          expiresIn: 3600,
+          // data: user
       });
-    })
-    .catch((e) => {
-       res.status(401).json({
-        message: "auth failed",
+            }
+          })
+
+          // return user.password !== req.body.password;
+      }).catch(e => {
+          console.log(e);
+          res.status(401).json({
+              message: 'auth failed ..'
+          });
+      })
+  } catch (err) {
+    console.log(err)
+      res.status(401).json({
+          message: 'Something went wrong'
       });
-    });
-};
+  }
+}
 
 // exports.getPhone=(req, res, next)=>{
 //         User.find({},'phone',function(err, data){
