@@ -81,7 +81,7 @@ exports.getLocations = async (req, res, next) => {
         latitude: r.location.coordinates[0],
         longitude: r.location.coordinates[1],
         name: r.userInfo.length != 0 ? r.userInfo[0].name : '',
-        phone: r.userInfo.length != 0 ? r.userInfo[0].phone : '',
+        phone: r.userInfo.length != 0 ? r.userInfo[0].phone : ''
       })
     })
 
